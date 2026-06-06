@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="502.5" height="145.5" viewBox="0 0 502.5 145.5" fill="none" role="img" aria-label="farspeak labs">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap');
+      .term { font-family:'JetBrains Mono',monospace; font-size:84px; font-weight:500; letter-spacing:-1.7px; }
+      .labs { font-family:'JetBrains Mono',monospace; font-size:42px; letter-spacing:4.2px; fill:#6b6b73; }
+    </style>
+  </defs>
+  <text class="term" x="0" y="66"><tspan fill="#4cc2ff">&gt;</tspan><tspan fill="#0a0a0b" dx="14">farspeak</tspan></text>
+  <rect x="464.5" y="2" width="38" height="80" fill="#4cc2ff"/>
+  <text class="labs" x="0" y="122">// labs</text>
+</svg>

@@ -1,0 +1,76 @@
+@import "./tokens.css";
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+::selection { background: rgba(76,194,255,.25); color: #fff; }
+
+/* ---- shared layout ---- */
+.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
+.mono { font-family: var(--font-mono); }
+
+/* ---- eyebrow label ---- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--signal);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.eyebrow .pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--signal); box-shadow: 0 0 10px var(--signal);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px; letter-spacing: .03em;
+  padding: 11px 18px; border-radius: var(--radius-sm);
+  border: 1px solid var(--line-2); color: var(--ink);
+  background: transparent;
+  transition: border-color .18s var(--ease), background .18s var(--ease), transform .18s var(--ease);
+  white-space: nowrap; cursor: pointer;
+}
+.btn:hover { border-color: var(--signal); background: rgba(76,194,255,.07); }
+.btn .arrow { transition: transform .18s var(--ease); }
+.btn:hover .arrow { transform: translateX(3px); }
+.btn.solid { background: var(--signal); color: #04121c; border-color: var(--signal); font-weight: 500; }
+.btn.solid:hover { background: #6fd0ff; }
+.btn.lg { padding: 13px 22px; font-size: 14px; }
+
+/* ---- section scaffolding ---- */
+section.block { padding: 92px 0; border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
+.sec-head h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.02em; line-height: 1.08; }
+.sec-head p { color: var(--muted); max-width: 430px; font-size: 15px; }
+
+/* ---- transmission divider (the #02 motif) ---- */
+.divider { display: flex; align-items: center; gap: 14px; }
+.divider .n { width: 9px; height: 9px; border-radius: 50%; background: var(--ink); flex: none; }
+.divider .l { flex: 1; border-top: 2px dashed var(--line-2); height: 0; }
+.divider .f { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); flex: none; }

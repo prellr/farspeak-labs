@@ -1,0 +1,51 @@
+---
+/**
+ * Farspeak Labs wordmark — concept #02 "Transmission".
+ * Pure CSS lockup so it stays crisp at any size and inherits theme colors.
+ */
+interface Props {
+  size?: number;          // wordmark font-size in px
+  class?: string;
+}
+const { size = 21, class: klass = "" } = Astro.props;
+---
+<span class={`lockup ${klass}`} style={`--wm-size:${size}px`} aria-label="Farspeak Labs">
+  <span class="wm">FAR<span class="sp">SPEAK</span></span>
+  <span class="row">
+    <span class="near"></span>
+    <span class="dash"></span>
+    <span class="far"></span>
+    <span class="labs">Labs</span>
+  </span>
+</span>
+
+<style>
+  .lockup { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; line-height: 1; }
+  .wm {
+    font-family: var(--font-display);
+    font-size: var(--wm-size);
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .wm .sp { font-weight: 600; }
+  .row {
+    align-self: stretch;
+    display: flex; align-items: center;
+    gap: .34em;
+    margin-top: -.06em;
+  }
+  .near { width: calc(var(--wm-size) * .33); height: calc(var(--wm-size) * .33); border-radius: 50%; background: var(--ink); flex: none; }
+  .dash { flex: 1; border-top: 2px dashed var(--signal); height: 0; }
+  .far  { width: calc(var(--wm-size) * .21); height: calc(var(--wm-size) * .21); border-radius: 50%; background: var(--signal); flex: none; }
+  .labs {
+    font-family: var(--font-mono);
+    font-size: calc(var(--wm-size) * .40);
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex: none;
+  }
+</style>

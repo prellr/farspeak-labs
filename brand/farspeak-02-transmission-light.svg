@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="448.7" height="130.5" viewBox="0 0 448.7 130.5" fill="none" role="img" aria-label="Farspeak Labs">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap');
+      .wm   { font-family:'Space Grotesk',sans-serif; font-size:88px; letter-spacing:3.5px; }
+      .labs { font-family:'JetBrains Mono',monospace; font-size:34px; letter-spacing:9.5px; fill:#5c5c64; }
+    </style>
+  </defs>
+  <text class="wm" x="0" y="69" fill="#0a0a0b"><tspan font-weight="500">FAR</tspan><tspan font-weight="600">SPEAK</tspan></text>
+  <circle cx="15" cy="108.3" r="15" fill="#0a0a0b"/>
+  <line x1="34" y1="108.3" x2="282" y2="108.3" stroke="#4cc2ff" stroke-width="5" stroke-dasharray="6 14" stroke-linecap="butt"/>
+  <circle cx="296" cy="108.3" r="9" fill="#4cc2ff"/>
+  <text class="labs" x="329" y="120">LABS</text>
+</svg>

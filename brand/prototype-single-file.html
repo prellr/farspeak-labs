@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farspeak Labs — Build once. Speak far.</title>
+<meta name="description" content="Farspeak Labs is an independent product studio. We build sharp, opinionated software — starting with RoastConsole — and redeploy the playbook across industries.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='14' cy='32' r='10' fill='%23f4f4f5'/%3E%3Cline x1='26' y1='32' x2='44' y2='32' stroke='%234cc2ff' stroke-width='4' stroke-dasharray='3 6'/%3E%3Ccircle cx='52' cy='32' r='6' fill='%234cc2ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --panel:#101013;
+    --panel-2:#15151a;
+    --line:#222227;
+    --line-2:#2c2c33;
+    --ink:#f4f4f5;
+    --muted:#9a9aa3;
+    --dim:#62626b;
+    --signal:#4cc2ff;
+    --violet:#7c6cff;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* ---------- wordmark lockup (concept 02) ---------- */
+  .lockup{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px}
+  .lockup .wm{font-family:"Space Grotesk";letter-spacing:.04em;font-weight:500;text-transform:uppercase;line-height:1}
+  .lockup .wm .sp{font-weight:600}
+  .lockup .row{align-self:stretch;display:flex;align-items:center;gap:.34em;margin-top:-.06em}
+  .lockup .near{border-radius:50%;background:var(--ink);flex:none}
+  .lockup .dash{flex:1;border-top:2px dashed var(--signal);height:0}
+  .lockup .far{border-radius:50%;background:var(--signal);flex:none}
+  .lockup .labs{font-family:"JetBrains Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);flex:none}
+  /* nav size */
+  .lockup.sm .wm{font-size:21px}
+  .lockup.sm .near{width:7px;height:7px}
+  .lockup.sm .far{width:4.5px;height:4.5px}
+  .lockup.sm .labs{font-size:8.5px}
+
+  /* ---------- nav ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,11,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  nav .links{display:flex;align-items:center;gap:30px}
+  nav .links a{font-size:14px;color:var(--muted);transition:color .15s}
+  nav .links a:hover{color:var(--ink)}
+  .btn{
+    font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.04em;
+    padding:9px 16px;border-radius:8px;border:1px solid var(--line-2);color:var(--ink);
+    transition:border-color .15s,background .15s;white-space:nowrap;
+  }
+  .btn:hover{border-color:var(--signal);background:rgba(76,194,255,.07)}
+  .btn.solid{background:var(--signal);color:#04121c;border-color:var(--signal);font-weight:500}
+  .btn.solid:hover{background:#6fd0ff}
+  @media(max-width:680px){nav .links a:not(.btn){display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:120px 0 96px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(60% 50% at 18% 0%, rgba(76,194,255,.10), transparent 70%),
+      radial-gradient(50% 50% at 90% 20%, rgba(124,108,255,.08), transparent 70%);
+    pointer-events:none;
+  }
+  .hero .grid-bg{
+    content:"";position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;opacity:.35;
+    -webkit-mask-image:radial-gradient(circle at 30% 25%,#000,transparent 70%);mask-image:radial-gradient(circle at 30% 25%,#000,transparent 70%);
+  }
+  .hero .inner{position:relative;z-index:1;max-width:780px}
+  h1{
+    font-family:"Space Grotesk";font-weight:600;letter-spacing:-.025em;line-height:1.02;
+    font-size:clamp(42px,7vw,76px);margin:26px 0 22px;
+  }
+  h1 .accent{color:var(--signal)}
+  .hero p.lede{font-size:clamp(17px,2.2vw,21px);color:var(--muted);max-width:620px}
+  .hero p.lede b{color:var(--ink);font-weight:500}
+  .hero .cta{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap}
+  .btn.lg{padding:13px 22px;font-size:14px}
+
+  /* transmission divider */
+  .divider{display:flex;align-items:center;gap:14px;margin:0;padding:0}
+  .divider .n{width:9px;height:9px;border-radius:50%;background:var(--ink);flex:none}
+  .divider .l{flex:1;border-top:2px dashed var(--line-2);height:0}
+  .divider .f{width:6px;height:6px;border-radius:50%;background:var(--signal);flex:none}
+
+  /* ---------- section scaffolding ---------- */
+  section.block{padding:90px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:48px;flex-wrap:wrap}
+  .sec-head h2{font-family:"Space Grotesk";font-weight:600;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.1}
+  .sec-head p{color:var(--muted);max-width:420px;font-size:15px}
+
+  /* ---------- products ---------- */
+  .products{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:auto auto;gap:20px}
+  @media(max-width:760px){.products{grid-template-columns:1fr}}
+  .card{
+    position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:30px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-3px)}
+  .card.feature{grid-row:span 2;border-color:rgba(76,194,255,.28)}
+  .card.feature:hover{border-color:rgba(76,194,255,.55)}
+  .card.feature::after{content:"";position:absolute;top:-40%;right:-20%;width:60%;height:80%;background:radial-gradient(circle,rgba(76,194,255,.12),transparent 70%);pointer-events:none}
+  .card:not(.feature):hover{border-color:var(--line-2)}
+  .card .tag{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .card .tag.live{color:var(--signal)}
+  .card .tag.soon{color:var(--violet)}
+  .card h3{font-family:"Space Grotesk";font-weight:600;letter-spacing:-.01em;margin:16px 0 0}
+  .card.feature h3{font-size:34px}
+  .card:not(.feature) h3{font-size:22px}
+  .card p{color:var(--muted);font-size:14.5px;margin-top:12px}
+  .card .spacer{flex:1;min-height:18px}
+  .card .foot{display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--ink);margin-top:24px}
+  .card .foot .arrow{transition:transform .2s}
+  .card:hover .foot .arrow{transform:translateX(4px)}
+  .card .roast-vis{margin-top:26px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:14px 16px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.9;color:var(--muted)}
+  .card .roast-vis .c{color:var(--signal)}
+  .card .roast-vis .g{color:#52d39a}
+  .card .roast-vis .d{color:var(--dim)}
+  .chip-soon{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--violet);border:1px solid rgba(124,108,255,.35);border-radius:20px;padding:3px 10px;width:max-content}
+
+  /* ---------- approach ---------- */
+  .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:760px){.principles{grid-template-columns:1fr}}
+  .pr .num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--signal);letter-spacing:.1em}
+  .pr h4{font-family:"Space Grotesk";font-weight:600;font-size:19px;margin:14px 0 8px;letter-spacing:-.01em}
+  .pr p{color:var(--muted);font-size:14.5px}
+  .pr{padding-top:22px;border-top:1px solid var(--line-2)}
+
+  /* ---------- contact ---------- */
+  .contact{text-align:center;padding:110px 0}
+  .contact h2{font-family:"Space Grotesk";font-weight:600;font-size:clamp(30px,5vw,52px);letter-spacing:-.025em;line-height:1.05;margin-bottom:18px}
+  .contact p{color:var(--muted);max-width:480px;margin:0 auto 34px;font-size:16px}
+  .contact .mail{font-family:"JetBrains Mono",monospace;font-size:clamp(16px,3vw,22px);color:var(--signal);border-bottom:1px solid rgba(76,194,255,.3);padding-bottom:3px;transition:border-color .2s}
+  .contact .mail:hover{border-color:var(--signal)}
+
+  /* ---------- footer ---------- */
+  footer.foot{border-top:1px solid var(--line);padding:34px 0}
+  footer.foot .row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  footer.foot .copy{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--dim);letter-spacing:.04em}
+  footer.foot .social{display:flex;gap:22px}
+  footer.foot .social a{font-size:13px;color:var(--muted)}
+  footer.foot .social a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#top" aria-label="Farspeak Labs home">
+        <span class="lockup sm">
+          <span class="wm">FAR<span class="sp">SPEAK</span></span>
+          <span class="row"><span class="near"></span><span class="dash"></span><span class="far"></span><span class="labs">Labs</span></span>
+        </span>
+      </a>
+      <div class="links">
+        <a href="#products">Products</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact" class="btn">Get in touch</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow"><span class="pulse"></span>Independent product studio</span>
+      <h1>Build once.<br><span class="accent">Speak far.</span></h1>
+      <p class="lede">Farspeak Labs builds sharp, opinionated software. We start by reshaping one industry from the inside — then <b>redeploy the same playbook</b> into the next. <b>RoastConsole</b> is where it begins.</p>
+      <div class="cta">
+        <a href="#products" class="btn solid lg">See what we're building</a>
+        <a href="#approach" class="btn lg">How we work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="block" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" style="margin-bottom:14px"><span class="pulse"></span>The portfolio</span>
+        <h2>One playbook,<br>many industries.</h2>
+      </div>
+      <p>We ship our own products end to end. Each one proves a model we can carry into the next market.</p>
+    </div>
+
+    <div class="products">
+      <!-- featured -->
+      <a class="card feature" href="#contact">
+        <span class="tag live">● Live · Flagship</span>
+        <h3>RoastConsole</h3>
+        <p>The control surface that's reshaping its industry — built to scale, designed to be the standard. The first proof of the Farspeak model.</p>
+        <div class="roast-vis">
+          <div><span class="c">&gt;</span> roast deploy <span class="d">--prod</span></div>
+          <div><span class="d">✓ signal acquired</span></div>
+          <div><span class="g">✓ console live</span> <span class="d">· 142ms</span></div>
+          <div><span class="c">&gt;</span> <span style="opacity:.6">scaling to next market…</span></div>
+        </div>
+        <div class="spacer"></div>
+        <div class="foot">Visit RoastConsole <span class="arrow">→</span></div>
+      </a>
+
+      <!-- in the works 1 -->
+      <div class="card">
+        <span class="tag soon">◆ In the works</span>
+        <h3>Project II</h3>
+        <p>The playbook, pointed at a new industry. Quietly in development.</p>
+        <div class="spacer"></div>
+        <span class="chip-soon">2026</span>
+      </div>
+
+      <!-- in the works 2 -->
+      <div class="card">
+        <span class="tag soon">◆ Exploring</span>
+        <h3>What's next</h3>
+        <p>We're always probing the next market worth rebuilding. Have one in mind?</p>
+        <div class="spacer"></div>
+        <a href="#contact" class="foot" style="color:var(--violet)">Pitch us <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPROACH ============ -->
+<section class="block" id="approach">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow" style="margin-bottom:14px"><span class="pulse"></span>How we work</span>
+        <h2>A small lab with<br>a long signal.</h2>
+      </div>
+      <p>We stay deliberately small and let the products carry the distance.</p>
+    </div>
+
+    <div class="principles">
+      <div class="pr">
+        <div class="num">01</div>
+        <h4>Opinionated by default</h4>
+        <p>Great tools take a stance. We'd rather be sharp and right for the few than vague and safe for everyone.</p>
+      </div>
+      <div class="pr">
+        <div class="num">02</div>
+        <h4>Built to be the standard</h4>
+        <p>Every product is engineered to become the obvious choice in its category — not a feature, a foundation.</p>
+      </div>
+      <div class="pr">
+        <div class="num">03</div>
+        <h4>A repeatable playbook</h4>
+        <p>What works in one industry becomes the blueprint for the next. We compound, market by market.</p>
+      </div>
+    </div>
+
+    <div class="divider" style="margin-top:64px"><span class="n"></span><span class="l"></span><span class="f"></span></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="eyebrow" style="margin-bottom:22px"><span class="pulse"></span>Open channel</span>
+    <h2>Let's speak.</h2>
+    <p>Partnerships, press, or an industry you think we should rebuild — the line is open.</p>
+    <a class="mail" href="mailto:hello@farspeak.com">hello@farspeak.com</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="row">
+      <span class="lockup sm" style="opacity:.85">
+        <span class="wm">FAR<span class="sp">SPEAK</span></span>
+        <span class="row"><span class="near"></span><span class="dash"></span><span class="far"></span><span class="labs">Labs</span></span>
+      </span>
+      <div class="social">
+        <a href="#">X / Twitter</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+      </div>
+      <span class="copy">© 2026 Farspeak Labs · Build once. Speak far.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

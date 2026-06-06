@@ -1,0 +1,30 @@
+---
+import Wordmark from "./Wordmark.astro";
+---
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#top" aria-label="Farspeak Labs home"><Wordmark size={21} /></a>
+      <div class="links">
+        <a href="#roastconsole">RoastConsole</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact" class="btn">Get in touch</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,10,11,.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .links { display: flex; align-items: center; gap: 30px; }
+  .links a:not(.btn) { font-size: 14px; color: var(--muted); transition: color .15s; }
+  .links a:not(.btn):hover { color: var(--ink); }
+  @media (max-width: 680px) { .links a:not(.btn) { display: none; } }
+</style>

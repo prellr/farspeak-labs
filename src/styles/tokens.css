@@ -1,0 +1,42 @@
+/* ============================================================
+   Farspeak Labs — design tokens
+   Inherited by every page and, eventually, every product site.
+   ============================================================ */
+:root {
+  /* ---- surfaces ---- */
+  --bg:        #0a0a0b;
+  --bg-2:      #0d0d0f;
+  --panel:     #101013;
+  --panel-2:   #15151a;
+  --line:      #1f1f24;
+  --line-2:    #2a2a31;
+
+  /* ---- ink ---- */
+  --ink:       #f4f4f5;
+  --muted:     #9a9aa3;
+  --dim:       #5f5f68;
+
+  /* ---- Farspeak accent (the "signal") ---- */
+  --signal:    #4cc2ff;
+  --signal-dim:#2b7fab;
+  --violet:    #7c6cff;   /* reserved for the 2nd product */
+
+  /* ---- RoastConsole accents (the flagship's own palette) ---- */
+  --roast-lime: #d0f255;
+  --roast-teal: #003434;
+  --roast-cream:#f7f7f5;
+
+  /* ---- type ---- */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body:    "Geist", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- layout ---- */
+  --maxw: 1120px;
+  --pad: 28px;
+  --radius: 16px;
+  --radius-sm: 9px;
+
+  /* ---- motion ---- */
+  --ease: cubic-bezier(.22,.61,.36,1);
+}

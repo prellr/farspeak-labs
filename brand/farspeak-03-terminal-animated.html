@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farspeak — Terminal (animated)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#f4f4f5;--labs:#5c5c64;--bg:#0a0a0b;--signal:#4cc2ff}
+  body.light{--ink:#0a0a0b;--labs:#6b6b73;--bg:#f4f4f5}
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"JetBrains Mono",monospace;
+  }
+
+  .term{font-size:84px;font-weight:500;letter-spacing:-.02em;color:var(--ink);line-height:1;white-space:nowrap;display:flex;align-items:center}
+  .prompt{color:var(--signal);margin-right:14px}
+
+  /* typed-out wordmark */
+  .typed{overflow:hidden;display:inline-block;vertical-align:bottom;white-space:nowrap;
+    width:8ch;                 /* "farspeak" = 8 chars */
+    animation:type 1.6s steps(8) 0.3s both;
+  }
+  @keyframes type{from{width:0}to{width:8ch}}
+
+  /* flashing terminal cursor block */
+  .cursor{
+    display:inline-block;width:38px;height:80px;background:var(--signal);
+    margin-left:12px;flex:none;
+    box-shadow:0 0 18px rgba(76,194,255,.55);
+    animation:blink 1.06s steps(1,end) infinite;
+  }
+  @keyframes blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+
+  /* don't blink while typing, then start */
+  .typing .cursor{animation:none;opacity:1}
+
+  .labs{font-size:42px;color:var(--labs);letter-spacing:.1em;margin-top:6px;opacity:0;animation:fade .5s ease 1.9s both}
+  @keyframes fade{to{opacity:1}}
+
+  @media (prefers-reduced-motion:reduce){
+    .typed{width:8ch;animation:none}
+    .labs{opacity:1;animation:none}
+    .cursor{animation:none}
+  }
+
+  /* replay button (UI only — not part of the mark) */
+  .replay{position:fixed;bottom:20px;right:20px;font-size:12px;letter-spacing:.05em;
+    color:var(--labs);border:1px solid #2c2c33;background:transparent;border-radius:7px;
+    padding:7px 12px;cursor:pointer;font-family:"JetBrains Mono",monospace}
+  .replay:hover{color:var(--ink);border-color:var(--signal)}
+</style>
+</head>
+<body>
+  <div>
+    <div class="term"><span class="prompt">&gt;</span><span class="typed" id="typed">farspeak</span><span class="cursor"></span></div>
+    <div class="labs">// labs</div>
+  </div>
+
+  <button class="replay" onclick="replay()">↻ replay</button>
+<script>
+  // theme via ?theme=light
+  const p = new URLSearchParams(location.search);
+  if((p.get('theme')||'dark')==='light') document.body.classList.add('light');
+
+  function replay(){
+    const nodes = document.querySelectorAll('.typed, .labs, .cursor');
+    nodes.forEach(n=>{ n.style.animation='none'; void n.offsetWidth; n.style.animation=''; });
+  }
+</script>
+</body>
+</html>
