@@ -6,12 +6,12 @@ interface Props {
   description?: string;
 }
 const {
-  title = "Farspeak Labs — Build once. Speak far.",
-  description = "Farspeak Labs is an independent product studio building category-defining software — starting with RoastConsole, the most advanced coffee roasting platform.",
+  title = "Farspeak Labs, independent software studio",
+  description = "Farspeak Labs is an independent software studio. We make honest, private apps you buy once, and build custom software for companies that would rather own than rent.",
 } = Astro.props;
 
 const favicon =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='14' cy='32' r='10' fill='%23f4f4f5'/%3E%3Cline x1='26' y1='32' x2='44' y2='32' stroke='%234cc2ff' stroke-width='4' stroke-dasharray='3 6'/%3E%3Ccircle cx='52' cy='32' r='6' fill='%234cc2ff'/%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='14' cy='32' r='10' fill='%23f5f5f6'/%3E%3Cline x1='26' y1='32' x2='44' y2='32' stroke='%234cc2ff' stroke-width='4' stroke-dasharray='3 6'/%3E%3Ccircle cx='52' cy='32' r='6' fill='%234cc2ff'/%3E%3C/svg%3E";
 ---
 <!doctype html>
 <html lang="en">
@@ -22,22 +22,42 @@ const favicon =
     <meta name="description" content={description} />
     <link rel="icon" href={favicon} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://farspeak.com" />
+    <meta property="og:url" content="https://farspeaklabs.com" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Fonts: Space Grotesk (display/logo) · Geist (body, matches RoastConsole) · JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <slot />
+    <script>
+      // Scroll reveal: reveal sections as they enter view. Reduced-motion users
+      // get everything shown immediately (CSS handles that).
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const els = document.querySelectorAll(".reveal");
+      if (prefersReduced || !("IntersectionObserver" in window)) {
+        els.forEach((el) => el.classList.add("in"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>
