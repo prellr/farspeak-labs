@@ -4,29 +4,40 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Daily IndexNow catch-up. Build and deploy are skipped on this event;
+    # only the ping runs, so a rejected submission is retried the next day.
+    - cron: '0 14 * * *'
 
-# Allow this workflow to deploy to Pages
+# Allow this workflow to deploy to Pages.
+# actions: write is required for the IndexNow job to restore and save its cache.
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
-# One run at a time; don't cancel an in-progress production deploy
+# One run at a time; don't cancel an in-progress production deploy.
+# Scheduled pings use a separate group so they don't block a deploy.
 concurrency:
-  group: pages
+  group: ${{ github.event_name == 'schedule' && 'indexnow-daily' || 'pages' }}
   cancel-in-progress: false
 
 jobs:
   build:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # sitemap lastmod uses git commit dates
       - name: Build Astro site
         uses: withastro/action@v3   # installs deps, builds, uploads the Pages artifact
 
   deploy:
     needs: build
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -35,3 +46,33 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  indexnow:
+    # After Pages deploys, or once a day: diff the live sitemap vs the last
+    # run and ping IndexNow with only new, changed, or removed URLs.
+    # No-op when nothing changed.
+    needs: deploy
+    if: ${{ !cancelled() && (needs.deploy.result == 'success' || github.event_name == 'schedule') }}
+    runs-on: ubuntu-latest
+    continue-on-error: true   # a failed ping never fails the deploy
+    env:
+      SITE_HOST: farspeaklabs.com
+      INDEXNOW_KEY: 760beed342dc385c1dce5a84c3bb1f8c   # public by design; served at /760beed342dc385c1dce5a84c3bb1f8c.txt
+      STATE_FILE: .indexnow/state.json
+      # BING_API_KEY: ${{ secrets.BING_API_KEY }}   # optional; see bottom of scripts/indexnow_ping.py
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore previous sitemap state
+        uses: actions/cache/restore@v4
+        with:
+          path: .indexnow
+          key: indexnow-${{ github.run_id }}
+          restore-keys: indexnow-
+      - name: Diff sitemap and ping IndexNow
+        run: python3 scripts/indexnow_ping.py
+      - name: Save sitemap state
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: .indexnow
+          key: indexnow-${{ github.run_id }}
